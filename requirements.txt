@@ -1,0 +1,6 @@
+streamlit
+groq
+pypdf
+bs4
+urllib3
+dotenv

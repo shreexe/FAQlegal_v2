@@ -1,0 +1,36 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contents to FAQ</title>
+    <style>
+      body {
+        background-color: black;
+        font-family: sans-serif;
+        color: white;
+        text-align: center;
+      }
+      input[type="text"],
+      button {
+        background-color: gray;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Contents to FAQ</h1>
+    <form action="/process" method="post" enctype="multipart/form-data">
+      <div>
+        <label for="url">URL:</label>
+        <input type="text" name="url" id="url" required="true" /><br /><br />
+      </div>
+
+     <div><label for="file">Upload File:</label>
+        <input type="file" name="file" id="file" /><br /><br /></div> 
+      <input type="submit" value="Process" />
+    </form>
+  
+  </body>
+</html>

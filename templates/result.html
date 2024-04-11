@@ -1,0 +1,40 @@
+<!-- result.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+         body {
+        background-color: black;
+        font-family: sans-serif;
+        color: white;
+        text-align: center;
+      }
+        .faq-card {
+            margin-bottom: 20px;
+            background-color: slategrey;
+            
+        }
+        .question {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Generated FAQs</h1>
+        <hr>
+        
+            <div class="card faq-card">
+                <div class="card-body">
+                    
+                    <p class="card-text">{{ faqs }}</p>
+                </div>
+            </div>
+       
+    </div>
+</body>
+</html>
