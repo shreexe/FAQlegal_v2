@@ -4,7 +4,7 @@ from groq import Groq
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-from dotenv import load_dotenv
+
 
 app = Flask(__name__)
 
