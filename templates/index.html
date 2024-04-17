@@ -4,33 +4,65 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="{{url_for('static',filename='css/output.css')}}"
+      rel="stylesheet"
+    />
+
     <title>Contents to FAQ</title>
-    <style>
-      body {
-        background-color: black;
-        font-family: sans-serif;
-        color: white;
-        text-align: center;
-      }
-      input[type="text"],
-      button {
-        background-color: gray;
-        color: white;
-      }
-    </style>
   </head>
   <body>
-    <h1>Contents to FAQ</h1>
-    <form action="/process" method="post" enctype="multipart/form-data">
-      <div>
+    <div
+      class="block justify-center mb-2 text-center font-bold text-3xl font-sans p-20 pt-40"
+    >
+      Legal FAQs
+    </div>
+
+    <form
+      action="/process"
+      method="post"
+      enctype="multipart/form-data"
+      class="max-w-sm mx-auto"
+    >
+      <!-- <div>
         <label for="url">URL:</label>
         <input type="text" name="url" id="url" required="true" /><br /><br />
+      </div> -->
+      <div>
+        <label for="url" class="block mb-2 text-m font-medium text-gray-900"
+          >URL</label
+        >
+        <input
+          type="text"
+          id="small-input"
+          name="url"
+          class="block w-full h-50 p-2 text-gray-900 border border-gray-700 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500"
+        />
       </div>
-
-     <div><label for="file">Upload File:</label>
-        <input type="file" name="file" id="file" /><br /><br /></div> 
-      <input type="submit" value="Process" />
+      <div class="pt-3">
+        <label class="block mb-2 text-m font-medium text-gray-900" for="file"
+          >Upload file</label
+        >
+        <input
+          class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none placeholder-gray-400"
+          aria-describedby="user_avatar_help"
+          id="user_avatar"
+          type="file"
+          name="file"
+        />
+      </div>
+      <!-- <div>
+        <label for="file">Upload File:</label>
+        <input type="file" name="file" id="file" /><br /><br />
+      </div> -->
+      <div class="p-10 pl-40">
+        <button
+          type="submit"
+          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+        >
+          Submit
+        </button>
+      </div>
     </form>
-  
   </body>
 </html>

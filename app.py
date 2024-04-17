@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 from groq import Groq
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
@@ -7,6 +7,7 @@ from urllib.request import urlopen
 
 
 app = Flask(__name__)
+
 
 # Initialize Groq client
 client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
@@ -25,6 +26,7 @@ def get_text_from_document(file):
 
 
 def get_text_from_url(url):
+
     print(url)
     page = urlopen(url)
     soup = BeautifulSoup(page)
@@ -45,7 +47,7 @@ Ensure accuracy in content extraction and interpretation. Give the content of ea
             },
             {
                 'role': 'user',
-                'content': "Here is the content I would like to generate FAQs for:" +content+"\nGenerate FAQs for each topic."
+                'content': "Here is the content I would like to generate FAQs for:" + content+"\nGenerate FAQs for each topic."
             }
         ],
         model="mixtral-8x7b-32768",
@@ -72,7 +74,8 @@ def process():
 
     if url:
         text = get_text_from_url(url)
-        print(text, "text!")
+        print(text,"%textt!!")
+       
     elif file:
         text = get_text_from_document(file)
     else:
@@ -82,7 +85,7 @@ def process():
     for chunk in get_faqs(text):
         if chunk.choices[0].delta.content:
             faqs += chunk.choices[0].delta.content
-            print(faqs, "FAQS")
+           
 
     return render_template('result.html', faqs=faqs)
 

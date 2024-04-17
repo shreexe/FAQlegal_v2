@@ -1,40 +1,59 @@
 <!-- result.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>FAQ Result</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-         body {
+      body {
         background-color: black;
         font-family: sans-serif;
         color: white;
         text-align: center;
       }
-        .faq-card {
-            margin-bottom: 20px;
-            background-color: slategrey;
-            
-        }
-        .question {
-            font-weight: bold;
-        }
+      .faq-card {
+        margin-bottom: 20px;
+        background-color: slategrey;
+      }
+      .question {
+        font-weight: bold;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+
     <div class="container mt-5">
-        <h1 class="text-center">Generated FAQs</h1>
-        <hr>
-        
-            <div class="card faq-card">
-                <div class="card-body">
-                    
-                    <p class="card-text">{{ faqs }}</p>
-                </div>
-            </div>
-       
+      <h1 class="text-center">FAQs</h1>
+      <hr />
+
+      <div class="card faq-card">
+        <div id="faq-content" class="card-body" markdown="1">
+          <p class="card-text">{{ faqs }}</p>
+        </div>
+      </div>
+      <script>
+        // Get the Markdown content
+        var markdownContent = document.getElementById("faq-content").innerText;
+
+        markdownContent = markdownContent.replace(/^(\d+\..*?)\s+Q:\s+(.*?)\s+A:\s+(.*?)\s+(?=\d+\.|$)/gm, '\n\n$1\n\n**Q:** $2\n\n**A:** $3\n\n');
+
+        // Create a new Showdown converter
+        var converter = new showdown.Converter();
+
+        // Convert Markdown to HTML
+        var htmlContent = converter.makeHtml(markdownContent);
+
+        // Replace the inner HTML of the container with the converted HTML
+        document.getElementById("faq-content").innerHTML = htmlContent;
+      </script>
     </div>
-</body>
+    <a href="/"> Back to home</a>
+  </body>
 </html>
