@@ -10,40 +10,34 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
-    <style>
-      body {
-        background-color: black;
-        font-family: sans-serif;
-        color: white;
-        text-align: center;
-      }
-      .faq-card {
-        margin-bottom: 20px;
-        background-color: slategrey;
-      }
-      .question {
-        font-weight: bold;
-      }
-    </style>
+    <link
+      href="{{url_for('static',filename='css/output.css')}}"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
 
-    <div class="container mt-5">
-      <h1 class="text-center">FAQs</h1>
-      <hr />
+    <div class="container mt-5 flex flex-col">
+      <div class="text-center font-bold text-xl">FAQs</div>
 
-      <div class="card faq-card">
-        <div id="faq-content" class="card-body" markdown="1">
-          <p class="card-text">{{ faqs }}</p>
-        </div>
+      <div
+        id="faq-content"
+        class="block max-w-full p-6 bg-gray-200 border border-gray-200 rounded-lg shadow"
+      >
+        {{ faqs }}
       </div>
       <script>
         // Get the Markdown content
+
         var markdownContent = document.getElementById("faq-content").innerText;
 
-        markdownContent = markdownContent.replace(/^(\d+\..*?)\s+Q:\s+(.*?)\s+A:\s+(.*?)\s+(?=\d+\.|$)/gm, '\n\n$1\n\n**Q:** $2\n\n**A:** $3\n\n');
-
+        markdownContent = markdownContent.replace(/(\*\*.+?\*\*)/g, "\n$1\n\n");
+        markdownContent = markdownContent.replace(/(\?.*?\?)/g, "$1\n\n"); // Questions
+        markdownContent = markdownContent.replace(
+          /(A:.*?)(?=\n\n|$)/g,
+          "$1\n\n"
+        ); // Answers
         // Create a new Showdown converter
         var converter = new showdown.Converter();
 
@@ -53,7 +47,12 @@
         // Replace the inner HTML of the container with the converted HTML
         document.getElementById("faq-content").innerHTML = htmlContent;
       </script>
+      <a
+        href="/"
+        class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-10 py-2.5 mb-2"
+      >
+        Back to home
+      </a>
     </div>
-    <a href="/"> Back to home</a>
   </body>
 </html>
