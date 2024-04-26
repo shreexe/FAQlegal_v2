@@ -5,18 +5,15 @@ from groq import Groq
 from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-
 from octoai.client import Client
+
 load_dotenv() 
 
 app = Flask(__name__)
 
 
 client = Client()
-# Initialize Groq client
-# client = Groq(api_key=os.environ.get('GROQ_API_KEY'))
 
-# Function to extract text from a PDF file
 
 
 def get_text_from_document(file):
@@ -58,7 +55,7 @@ Ensure accuracy in content extraction and interpretation. Give the content of ea
         temperature=0.3,
         stream=True,
     )
-    print(chat_completion, "chat_completion")
+
     return chat_completion
 
 
@@ -79,7 +76,7 @@ def process():
 
     if url:
         text = get_text_from_url(url)
-        print(text, "%textt!!")
+        
 
     elif file:
         text = get_text_from_document(file)
@@ -90,7 +87,7 @@ def process():
     for chunk in get_faqs(text):
         if chunk.choices[0].delta.content:
             faqs += chunk.choices[0].delta.content
-            print(faqs,"FAQ")
+            
 
     return render_template('result.html', faqs=faqs)
 
