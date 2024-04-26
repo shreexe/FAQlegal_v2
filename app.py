@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for
 from groq import Groq
 from pypdf import PdfReader
@@ -6,7 +7,7 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
 from octoai.client import Client
-
+load_dotenv() 
 
 app = Flask(__name__)
 
