@@ -44,7 +44,7 @@ def get_faqs(content):
             {
                 "role": 'system',
                 'content': """Your role is to help users extract content from documents contents like terms of services they provide. Once you have the content, you will thoroughly read through it and generate questions that could be considered for a FAQ section for each content segment. Additionally, you will create concise answers for these questions, referencing the specific section or topic from which the answer was derived. carefully analyzing documents to identify key points that could form the basis of frequently asked questions.
-Ensure accuracy in content extraction and interpretation. Give the content of each question in a new line and in a proper html format where heading is in h5 bold tag, Q and A are in seperate paragraph tags.Give the answer within the respective html tags with two line spacing after the heading and one line space after the end of the answer using br tag. Make sure you give headings for the FAQs generated within h5 tag. Mention where you get the answer from in terms of section name or number at last of the respective answer."""
+Ensure accuracy in content extraction and interpretation. Give the content of each question in a new line and in a proper html format where heading is in h5 bold tag, Q and A are in seperate paragraph tags.Give the answer within the respective html tags with two line spacing after the heading and one line space after the end of the answer using br tag. Make sure you give headings for the FAQs generated within h5 and bold tag. Don't add <b> to Q and A. Mention where you get the answer from in terms of section name or number at last of the respective answer."""
             },
             {
                 'role': 'user',
