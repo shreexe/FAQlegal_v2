@@ -1,58 +1,70 @@
+
 <!-- result.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>FAQ Result</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    />
-    <link
-      href="{{url_for('static',filename='css/output.css')}}"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+  <title>FAQ Result</title>
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <link
+    href="{{url_for('static',filename='css/output.css')}}"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
 
-    <div class="container mt-5 flex flex-col">
-      <div class="text-center font-bold text-xl">FAQs</div>
+  <div class="container mt-5 flex flex-col">
+    <div class="text-center font-bold text-xl">FAQs</div>
 
-      <div
-        id="faq-content"
-        class="block max-w-full p-6 bg-gray-200 border border-gray-200 rounded-lg shadow"
-      >
-        {{ faqs }}
-      </div>
-      <script>
-        // Get the Markdown content
-
-        var markdownContent = document.getElementById("faq-content").innerText;
-
-        markdownContent = markdownContent.replace(/(\*\*.+?\*\*)/g, "\n$1\n\n");
-        markdownContent = markdownContent.replace(/(\?.*?\?)/g, "$1\n\n"); // Questions
-        markdownContent = markdownContent.replace(
-          /(A:.*?)(?=\n\n|$)/g,
-          "$1\n\n"
-        ); // Answers
-        // Create a new Showdown converter
-        var converter = new showdown.Converter();
-
-        // Convert Markdown to HTML
-        var htmlContent = converter.makeHtml(markdownContent);
-
-        // Replace the inner HTML of the container with the converted HTML
-        document.getElementById("faq-content").innerHTML = htmlContent;
-      </script>
-      <a
-        href="/"
-        class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-10 py-2.5 mb-2"
-      >
-        Back to home
-      </a>
+    <div id="faq-content" class="p-6 bg-gray-500 border border-gray-200 rounded-lg shadow">
+      {{ faqs | safe }}
     </div>
-  </body>
+    <script>
+      // Get the HTML content of #faq-content
+      var content = document.getElementById("faq-content").innerHTML;
+
+      // Split the content into individual FAQ sections based on <h5> elements with bold text
+      var faqSections = content.split(/<h5><b>/).filter(function(section) {
+        return section.trim().length > 0;
+      });
+
+      // Create a new Showdown converter
+      var converter = new showdown.Converter();
+
+      // Clear the original FAQ content
+      document.getElementById("faq-content").innerHTML = "";
+
+      // Process each FAQ section and append to the container
+      faqSections.forEach(function(section) {
+        // Split the section into FAQ heading and content
+        var parts = section.split("</b>");
+        var heading = parts[0].trim();
+        var content = parts[1].trim();
+
+        // Convert Markdown to HTML for the content
+        var htmlContent = converter.makeHtml(content);
+
+        // Create a card for each FAQ section
+        var card = document.createElement("div");
+        card.classList.add("p-6", "bg-gray-200", "border", "border-gray-200", "rounded-lg", "shadow", "mb-5");
+        card.innerHTML = "<h5 class='font-bold mb-3'>" + heading + "</h5>" + htmlContent;
+
+        // Append card to container
+        document.getElementById("faq-content").appendChild(card);
+      });
+    </script>
+    <a
+      href="/"
+      class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-10 py-2.5 mb-2"
+    >
+      Back to home
+    </a>
+  </div>
+</body>
 </html>
