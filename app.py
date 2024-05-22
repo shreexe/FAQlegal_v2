@@ -53,8 +53,11 @@ Ensure accuracy in content extraction and interpretation. Give the content of ea
         ],
         model="mixtral-8x7b-instruct",
         temperature=0.3,
-        stream=True,
+        stream=True
+
+      
     )
+    print(chat_completion)
 
     return chat_completion
 
