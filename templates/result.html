@@ -1,26 +1,26 @@
-
 <!-- result.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>FAQ Result</title>
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
-  <link
-    href="{{url_for('static',filename='css/output.css')}}"
-    rel="stylesheet"
-  />
-</head>
-<body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <title>FAQ Result</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      href="{{url_for('static',filename='css/output.css')}}"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container mt-5 flex flex-col">
+      <div class="text-center font-bold text-xl">FAQs</div>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
 
-  <div class="container mt-5 flex flex-col">
-    <div class="text-center font-bold text-xl">FAQs</div>
+ 
 
     <div id="faq-content" class="p-6 bg-gray-500 border border-gray-200 rounded-lg shadow">
       {{ faqs | safe }}
@@ -59,12 +59,13 @@
         document.getElementById("faq-content").appendChild(card);
       });
     </script>
-    <a
-      href="/"
-      class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-10 py-2.5 mb-2"
-    >
-      Back to home
-    </a>
-  </div>
-</body>
+     
+      <a
+        href="/"
+        class="self-center text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-10 py-2.5 mb-2"
+      >
+        Back to home
+      </a>
+    </div>
+  </body>
 </html>

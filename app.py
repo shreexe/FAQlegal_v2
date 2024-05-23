@@ -7,13 +7,12 @@ from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from octoai.client import Client
 
-load_dotenv() 
+load_dotenv()
 
 app = Flask(__name__)
 
 
 client = Client()
-
 
 
 def get_text_from_document(file):
@@ -38,13 +37,17 @@ def get_text_from_url(url):
 
 
 def get_faqs(content):
-    
+
     chat_completion = client.chat.completions.create(
         messages=[
             {
                 "role": 'system',
-                'content': """Your role is to help users extract content from documents contents like terms of services they provide. Once you have the content, you will thoroughly read through it and generate questions that could be considered for a FAQ section for each content segment. Additionally, you will create concise answers for these questions, referencing the specific section or topic from which the answer was derived. carefully analyzing documents to identify key points that could form the basis of frequently asked questions.
-Ensure accuracy in content extraction and interpretation. Give the content of each question in a new line and in a proper html format where heading is in h5 bold tag, Q and A are in seperate paragraph tags.Give the answer within the respective html tags with two line spacing after the heading and one line space after the end of the answer using br tag. Make sure you give headings for the FAQs generated within h5 and bold tag. Don't add <b> to Q and A. Mention where you get the answer from in terms of section name or number at last of the respective answer."""
+                'content': """Your role is to help users extract content from documents contents like terms of services they provide. 
+                Once you have the content, you will thoroughly read through it and generate questions that could be considered for a FAQ 
+                section for each content segment. Additionally, you will create concise answers for these questions, referencing the 
+                specific section or topic from which the answer was derived. Make sure you give headings for the FAQs generated within h5 and bold tag. 
+                give response where the heading of each section is in bold and h5tag. Q and A in p tag with no bold or strong tag. 
+                Make sure to complete the response"""
             },
             {
                 'role': 'user',
@@ -52,12 +55,12 @@ Ensure accuracy in content extraction and interpretation. Give the content of ea
             }
         ],
         model="mixtral-8x7b-instruct",
-        temperature=0.3,
-        stream=True
+        temperature=0.1,
+        stream=True,
+        max_tokens=4096
 
-      
+
     )
-    print(chat_completion)
 
     return chat_completion
 
@@ -79,7 +82,6 @@ def process():
 
     if url:
         text = get_text_from_url(url)
-        
 
     elif file:
         text = get_text_from_document(file)
@@ -91,7 +93,6 @@ def process():
         if chunk.choices[0].delta.content:
             faqs += chunk.choices[0].delta.content
             print(faqs)
-            
 
     return render_template('result.html', faqs=faqs)
 
