@@ -45,9 +45,9 @@ def get_faqs(content):
                 'content': """Your role is to help users extract content from documents contents like terms of services they provide. 
                 Once you have the content, you will thoroughly read through it and generate questions that could be considered for a FAQ 
                 section for each content segment. Additionally, you will create concise answers for these questions, referencing the 
-                specific section or topic from which the answer was derived. Make sure you give headings for the FAQs generated within h5 and bold tag. 
-                give response where the heading of each section is in bold and h5tag. Q and A in p tag with no bold or strong tag. 
-                Make sure to complete the response"""
+                specific section or topic from which the answer was derived. Give the response in html tags. Make sure you give headings for the FAQs generated within h5. 
+                give response where the heading of each section is in h5 tag. let the question and answer be in p tag, normal font, and break after each answer. The heading in h5 tag, bold tag. The question and answer in seperate p tag without strong tag.
+                Make sure to complete the response with respective html tags"""
             },
             {
                 'role': 'user',

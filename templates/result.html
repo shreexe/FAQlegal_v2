@@ -30,7 +30,7 @@
       var content = document.getElementById("faq-content").innerHTML;
 
       // Split the content into individual FAQ sections based on <h5> elements with bold text
-      var faqSections = content.split(/<h5><b>/).filter(function(section) {
+      var faqSections = content.split(/<h5>/).filter(function(section) {
         return section.trim().length > 0;
       });
 
@@ -43,7 +43,7 @@
       // Process each FAQ section and append to the container
       faqSections.forEach(function(section) {
         // Split the section into FAQ heading and content
-        var parts = section.split("</b>");
+        var parts = section.split("</h5>");
         var heading = parts[0].trim();
         var content = parts[1].trim();
 
