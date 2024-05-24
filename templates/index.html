@@ -19,7 +19,7 @@
     </div>
 
     <form
-      action="/process"
+      id="form"
       method="post"
       enctype="multipart/form-data"
       class="max-w-sm mx-auto"
@@ -51,18 +51,41 @@
           name="file"
         />
       </div>
-      <!-- <div>
-        <label for="file">Upload File:</label>
-        <input type="file" name="file" id="file" /><br /><br />
-      </div> -->
-      <div class="p-10 pl-40">
+      <div
+        class="flex flex-row m-auto justify-start pt-5"
+        style="margin: auto; gap: 20%; margin-top: 15px"
+      >
         <button
+          id="octoai-btn"
           type="submit"
-          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center"
+          name="submit"
+          value="octoai"
+          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap"
+          style="padding-top: 10px; padding-bottom: 10px;"
         >
-          Submit
+          Submit to Mixtral
+        </button>
+        <button
+          id="gpt-btn"
+          type="submit"
+          name="submit"
+          value="gpt"
+          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap"
+        >
+          Submit to GPT
         </button>
       </div>
     </form>
+    <script>
+      document
+        .getElementById("octoai-btn")
+        .addEventListener("click", function () {
+          document.getElementById("form").action = "/process";
+        });
+
+      document.getElementById("gpt-btn").addEventListener("click", function () {
+        document.getElementById("form").action = "/chatgpt";
+      });
+    </script>
   </body>
 </html>

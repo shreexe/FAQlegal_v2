@@ -6,6 +6,8 @@ from pypdf import PdfReader
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 from octoai.client import Client
+from openai import OpenAI
+
 
 load_dotenv()
 
@@ -13,6 +15,7 @@ app = Flask(__name__)
 
 
 client = Client()
+client1 = OpenAI()
 
 
 def get_text_from_document(file):
@@ -65,7 +68,27 @@ def get_faqs(content):
     return chat_completion
 
 
-# Flask route for the home page
+def openai(content):
+    stream = client1.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{
+            "role": 'system',
+            'content': """Your role is to help users extract content from documents contents like terms of services they provide. 
+                Once you have the content, you will thoroughly read through it and generate questions that could be considered for a FAQ 
+                section for each content segment. Additionally, you will create concise answers for these questions, referencing the 
+                specific section or topic from which the answer was derived. Give the response in html tags. Make sure you give headings for the FAQs generated within h5. 
+                give response where the heading of each section is in h5 tag. let the question and answer be in p tag, normal font, and break after each answer. The heading in h5 tag, bold tag. The question and answer in seperate p tag without strong tag.
+                Make sure to complete the response with respective html tags"""
+        },
+            {
+            'role': 'user',
+                'content': "Here is the content I would like to generate FAQs for:" + content+"\nGenerate FAQs for each topic."
+        }
+        ],
+        stream=True,
+        temperature=0.1
+    )
+    return stream
 
 
 @app.route('/')
@@ -92,7 +115,29 @@ def process():
     for chunk in get_faqs(text):
         if chunk.choices[0].delta.content:
             faqs += chunk.choices[0].delta.content
-            print(faqs)
+            print(faqs, "---FROM OCTO AI")
+
+    return render_template('result.html', faqs=faqs)
+
+
+@app.route('/chatgpt', methods=['POST'])
+def chatgpt():
+    url = request.form.get('url')
+    file = request.files['file']
+
+    if url:
+        text = get_text_from_url(url)
+
+    elif file:
+        text = get_text_from_document(file)
+    else:
+        return "No input provided"
+
+    faqs = ''
+    for chunk in get_faqs(text):
+        if chunk.choices[0].delta.content:
+            faqs += chunk.choices[0].delta.content
+            print(faqs, "---FROM GPT")
 
     return render_template('result.html', faqs=faqs)
 
