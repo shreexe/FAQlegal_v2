@@ -47,6 +47,7 @@ nbconvert==7.16.3
 nbformat==5.10.4
 numpy==1.26.4
 octoai-sdk==0.10.1
+openai==1.30.2
 packaging==24.0
 pandocfilters==1.5.1
 parso==0.8.4
@@ -81,6 +82,7 @@ stack-data==0.6.3
 starlette==0.37.2
 tinycss2==1.2.1
 tornado==6.4
+tqdm==4.66.4
 traitlets==5.14.2
 types-PyYAML==6.0.12.20240311
 types-requests==2.31.0.20240406
