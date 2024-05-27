@@ -1,91 +1,92 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="{{url_for('static',filename='css/output.css')}}"
-      rel="stylesheet"
-    />
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='css/output.css') }}" rel="stylesheet">
     <title>Contents to FAQ</title>
-  </head>
-  <body>
-    <div
-      class="block justify-center mb-2 text-center font-bold text-3xl font-sans p-20 pt-40"
-    >
-      Legal FAQs
+    <style>
+        .loader-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 1);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader {
+            width: 90px;
+            height: 14px;
+            color: #000;
+            background:
+                radial-gradient(circle 10px at right 7px top 50%, #0000 92%, currentColor),
+                radial-gradient(circle 10px at right 0 top 50%, currentColor 92%, #0000);
+            background-size: calc(100% / 3) 100%;
+            background-position: 50% 0%;
+            animation: l5 .5s infinite linear;
+        }
+
+        @keyframes l5 {
+            100% {
+                background-position: 0% 0%
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+    <div class="block justify-center mb-2 text-center font-bold text-3xl font-sans p-20 pt-40">
+        Legal FAQs
     </div>
 
-    <form
-      id="form"
-      method="post"
-      enctype="multipart/form-data"
-      class="max-w-sm mx-auto"
-    >
-      <!-- <div>
-        <label for="url">URL:</label>
-        <input type="text" name="url" id="url" required="true" /><br /><br />
-      </div> -->
-      <div>
-        <label for="url" class="block mb-2 text-m font-medium text-gray-900"
-          >URL</label
-        >
-        <input
-          type="text"
-          id="small-input"
-          name="url"
-          class="block w-full h-50 p-2 text-gray-900 border border-gray-700 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500"
-        />
-      </div>
-      <div class="pt-3">
-        <label class="block mb-2 text-m font-medium text-gray-900" for="file"
-          >Upload file</label
-        >
-        <input
-          class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none placeholder-gray-400"
-          aria-describedby="user_avatar_help"
-          id="user_avatar"
-          type="file"
-          name="file"
-        />
-      </div>
-      <div
-        class="flex flex-row m-auto justify-start pt-5"
-        style="margin: auto; gap: 20%; margin-top: 15px"
-      >
-        <button
-          id="octoai-btn"
-          type="submit"
-          name="submit"
-          value="octoai"
-          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap"
-          style="padding-top: 10px; padding-bottom: 10px;"
-        >
-          Submit to Mixtral
-        </button>
-        <button
-          id="gpt-btn"
-          type="submit"
-          name="submit"
-          value="gpt"
-          class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap"
-        >
-          Submit to GPT
-        </button>
-      </div>
+    <form id="form" method="post" enctype="multipart/form-data" class="max-w-sm mx-auto">
+        <div>
+            <label for="url" class="block mb-2 text-m font-medium text-gray-900">URL</label>
+            <input type="text" id="small-input" name="url" class="block w-full h-50 p-2 text-gray-900 border border-gray-700 rounded-lg bg-gray-50 text-xs focus:ring-blue-500 focus:border-blue-500">
+        </div>
+        <div class="pt-3">
+            <label class="block mb-2 text-m font-medium text-gray-900" for="file">Upload file</label>
+            <input class="block w-full text-sm text-gray-900 border border-gray-700 rounded-lg cursor-pointer bg-gray-50 focus:outline-none placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file" name="file">
+        </div>
+        <div class="flex flex-row m-auto justify-start pt-5" style="margin: auto; gap: 20%; margin-top: 15px">
+            <button id="octoai-btn" type="submit" name="submit" value="octoai" class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap" style="padding-top: 10px; padding-bottom: 10px">
+                Submit to Mixtral
+            </button>
+            <button id="gpt-btn" type="submit" name="submit" value="gpt" class="text-white bg-black hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full text-wrap">
+                Submit to GPT
+            </button>
+        </div>
     </form>
+
+    <div class="loader-container" id="loader">
+        <div class="loader"></div>
+    </div>
+
     <script>
-      document
-        .getElementById("octoai-btn")
-        .addEventListener("click", function () {
-          document.getElementById("form").action = "/process";
+        function showLoader() {
+            document.getElementById('loader').style.display = 'flex';
+        }
+
+        document.getElementById("octoai-btn").addEventListener("click", function () {
+            showLoader();
+            document.getElementById("form").action = "/process";
         });
 
-      document.getElementById("gpt-btn").addEventListener("click", function () {
-        document.getElementById("form").action = "/chatgpt";
-      });
+        document.getElementById("gpt-btn").addEventListener("click", function () {
+            showLoader();
+            document.getElementById("form").action = "/chatgpt";
+        });
+
+        document.getElementById("form").addEventListener("submit", function (e) {
+            showLoader();
+        });
     </script>
-  </body>
+</body>
+
 </html>

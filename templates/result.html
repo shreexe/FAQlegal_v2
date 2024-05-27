@@ -18,6 +18,9 @@
   <body>
     <div class="container mt-3 flex flex-col">
       <div class="text-center font-bold text-xl mb-2">Legal FAQs - Results</div>
+      <div id="spinner" class="fixed z-50 inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center hidden">
+        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
+    </div>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
 
  
@@ -58,6 +61,7 @@
         // Append card to container
         document.getElementById("faq-content").appendChild(card);
       });
+      document.getElementById("spinner").classList.add("hidden");
     </script>
      
       <a
